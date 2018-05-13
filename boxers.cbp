@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="boxersClient" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/boxers" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="D:/Coding/libs/SDL2_VC/include" />
+				</Compiler>
+				<Linker>
+					<Add library="D:/Coding/libs/SDL2_VC/lib/x86/SDL2.lib" />
+					<Add library="D:/Coding/libs/SDL2_VC/lib/x86/SDL2main.lib" />
+					<Add library="D:/Coding/libs/SDL2_VC/lib/x86/SDL2test.lib" />
+					<Add library="D:/Coding/libs/SDL2_VC/Extensions/SDL2_image-2.0.1/lib/x86/SDL2_image.lib" />
+					<Add library="D:/MinGW/lib/libws2_32.a" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/boxers" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="eventhandler.cpp" />
+		<Unit filename="eventhandler.h" />
+		<Unit filename="gameattr.cpp" />
+		<Unit filename="gameattr.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="socket.cpp" />
+		<Unit filename="socket.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
