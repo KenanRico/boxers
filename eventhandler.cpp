@@ -7,22 +7,51 @@
 #include <SDL2/SDL.h>
 
 
-
+struct EventHandler::Keyboard EventHandler::keyboard;
 bool EventHandler::mouse_click[3];
 bool EventHandler::mouse_held[3];
 float EventHandler::mouse_pos[2];
 float EventHandler::mouse_click_pos[3][2];
 SDL_Event EventHandler::event;
 
+
+
 void EventHandler::update(){
+
+	//reset mouse
 	mouse_click[LEFT] = false;
 	mouse_click[MID] = false;
 	mouse_click[RIGHT] = false;
+
+	//reset keyboard
+	keyboard.pressed[W] = false;
+	keyboard.pressed[A] = false;
+	keyboard.pressed[S] = false;
+	keyboard.pressed[D] = false;
+
 	
 	if(SDL_PollEvent(&event)){
 		switch(event.type){
 			case SDL_QUIT:
 				GameAttr::stopGame();
+				break;
+			case SDL_KEYDOWN:
+				switch(event.key.keysym.sym){
+					case SDLK_w: keyboard.pressed[W] = true; break;
+					case SDLK_a: keyboard.pressed[A] = true; break;
+					case SDLK_s: keyboard.pressed[S] = true; break;
+					case SDLK_d: keyboard.pressed[D] = true; break;
+					default: break;
+				}
+				break;
+			case SDL_KEYUP:
+				switch(event.key.keysym.sym){
+					case SDLK_w: keyboard.pressed[W] = false; break;
+					case SDLK_a: keyboard.pressed[A] = false; break;
+					case SDLK_s: keyboard.pressed[S] = false; break;
+					case SDLK_d: keyboard.pressed[D] = false; break;
+					default: break;
+				}
 				break;
 			case SDL_MOUSEMOTION:
 				mouse_pos[X] = event.motion.x;
@@ -75,4 +104,7 @@ float EventHandler::getClickPos(int button, int axis){
 	return mouse_click_pos[button][axis];
 }
 
+bool EventHandler::keyPressed(int k){
+	return keyboard.pressed[k];
+}
 

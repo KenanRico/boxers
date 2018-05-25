@@ -6,9 +6,13 @@
 
 class EventHandler{
 	public:
+		enum { W=0, A=1, S=2, D=3 };
 		enum Button{ LEFT=0, MID=1, RIGHT=2 };
 		enum Axis{ X=0, Y=1 };
 	private:
+		static struct Keyboard{
+			bool pressed[4];
+		} keyboard;
 		static bool mouse_click[3];
 		static bool mouse_held[3];
 		static float mouse_pos[2];
@@ -25,6 +29,7 @@ class EventHandler{
 		static bool isHeld(int);
 		static float getPos(int);
 		static float getClickPos(int, int);
+		static bool keyPressed(int);
 };
 
 #endif

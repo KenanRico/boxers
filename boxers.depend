@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1525827951 source:d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\main.cpp
+1527291288 source:d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\main.cpp
 	"gameattr.h"
 	"eventhandler.h"
+	"gamecomponents.h"
 	"socket.h"
 	<iostream>
 	<stdexcept>
@@ -329,10 +330,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1525385749 d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\eventhandler.h
+1527290381 d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\eventhandler.h
 	<SDL2/SDL.h>
 
-1525385749 source:d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\eventhandler.cpp
+1527293183 source:d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\eventhandler.cpp
 	"eventhandler.h"
 	"gameattr.h"
 	<stdexcept>
@@ -343,12 +344,48 @@
 	"gameattr.h"
 	<SDL2/SDL.h>
 
-1525827863 d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\socket.h
+1527129261 d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\socket.h
 	<WinSock2.h>
 	<stdexcept>
+	<windows.h>
+	<tchar.h>
+	<string>
 
-1525827872 source:d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\socket.cpp
+1527129286 source:d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\socket.cpp
 	"socket.h"
 	<WinSock2.h>
 	<iostream>
+
+1527293034 source:d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\gamecomponents.cpp
+	"gamecomponents.h"
+	"eventhandler.h"
+	"box.h"
+	<map>
+	<sstream>
+	<algorithm>
+	<SDL2/SDL.h>
+
+1527290489 d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\gamecomponents.h
+	"socket.h"
+	"box.h"
+	<map>
+	<SDL2/SDL.h>
+
+1527293103 source:d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\box.cpp
+	"box.h"
+	"gameattr.h"
+	<string>
+	<stdexcept>
+	<SDL2/SDL.h>
+	<SDL2/extensions/SDL_image.h>
+
+1527290117 d:\codeblocks\pppppppppppppprojectssssssssssssss\boxers\box.h
+	<string>
+	<SDL2/SDL.h>
+
+1498630700 d:\coding\libs\sdl2_vc\include\sdl2\extensions\sdl_image.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_version.h>
+	<SDL2/begin_code.h>
+	<SDL2/close_code.h>
 

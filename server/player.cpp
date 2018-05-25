@@ -46,6 +46,14 @@ bool Player::isConnected() const{
 	return socket.connected;
 }
 
+
+void* communicationHandler(void*);
+
+void Player::startNewThread(){
+	pthread_attr_init(&thread.attrib);
+	thread.started = (pthread_create(&thread.ID, &thread.attrib, communicationHandler, (void*)this)==0);
+}
+
 void* communicationHandler(void* arg){
 	Player* p = (Player*)arg;
 	while(p->socket.connected){
@@ -58,9 +66,4 @@ void* communicationHandler(void* arg){
 	}
 	pthread_exit(nullptr);
 	return nullptr;
-}
-
-void Player::startNewThread(){
-	pthread_attr_init(&thread.attrib);
-	thread.started = (pthread_create(&thread.ID, &thread.attrib, communicationHandler, (void*)this)==0);
 }

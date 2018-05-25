@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 					<Add directory="D:/Coding/libs/SDL2_VC/include" />
 				</Compiler>
@@ -44,6 +45,8 @@
 		<Unit filename="eventhandler.h" />
 		<Unit filename="gameattr.cpp" />
 		<Unit filename="gameattr.h" />
+		<Unit filename="gamecomponents.cpp" />
+		<Unit filename="gamecomponents.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="socket.cpp" />
 		<Unit filename="socket.h" />
