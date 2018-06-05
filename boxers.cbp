@@ -41,6 +41,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="box.cpp" />
+		<Unit filename="box.h" />
 		<Unit filename="eventhandler.cpp" />
 		<Unit filename="eventhandler.h" />
 		<Unit filename="gameattr.cpp" />

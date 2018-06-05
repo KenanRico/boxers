@@ -1,8 +1,15 @@
 #include "socket.h"
+#include "gamecomponents.h"
+#include "box.h"
+
 
 #include <WinSock2.h>
 #include <iostream>
+#include <cstring>
+#include <sstream>
+
 #pragma comment(lib, "ws2_32.lib")
+
 
 
 bool ClientSocket::winsock_started = false;
@@ -11,8 +18,7 @@ ClientSocket::ClientSocket(const char* target_addr, int target_port):
 socket_info((struct SocketInfo){target_addr, target_port}),
 connected(false),
 connection(INVALID_SOCKET),
-local_updated(false), send(""),
-server_updated(false), receive(""){
+send_str(""){
 	address.sin_addr.s_addr = inet_addr(target_addr);
 	//address.sin_addr.s_addr = gethostbyname(target_addr);
 	address.sin_port = htons(target_port);
@@ -53,7 +59,9 @@ void ClientSocket::connectToServer(){
 	std::cout<<"Attempting to connect to "<<socket_info.host<<":"<<socket_info.port<<"\n";
 	if(connect(connection, (SOCKADDR*)&address, sizeof(address))>=0){
 		connected = true;
-		std::cout<<"Connect successful!";
+		std::string name = GameComponents::getMyBox()->getName();
+		send(connection, name.c_str(), name.size(), 0);
+		std::cout<<"Connect successful!\n";
 	}else{
 		closesocket(connection);
 		throw std::runtime_error("Failed to connect!");
@@ -77,15 +85,30 @@ void ClientSocket::runMsgHandlingThread(){
 DWORD WINAPI readLoop(LPVOID arg){
 	ClientSocket* socket = (ClientSocket*)arg;
 	while(socket->connected){
-		//read
+		//mutex(receive).lock
+		//recv(SOCKET, char[], int, 0);
+		//mutex(receive).release
+		memset(socket->recv_str, 0, sizeof(socket->recv_str));
+		recv(socket->connection, socket->recv_str, sizeof(socket->recv_str), 0);
 	}
 	return 0;
 }
 
 DWORD WINAPI writeLoop(LPVOID arg){
 	ClientSocket* socket = (ClientSocket*)arg;
+	Box const * box = GameComponents::getMyBox();
 	while(socket->connected){
 		//if updated, write
+		if(GameComponents::isUpdated()){
+			//mutex(send).lock
+			//send(SOCKET, char*, int, 0);
+			//mutex(send).release
+			std::string temp("");
+			std::stringstream ss;
+			ss<<box->getX()<<" "<<box->getY();
+			socket->send_str = ss.str();
+			send(socket->connection, socket->send_str.c_str(), socket->send_str.size(), 0);
+		}else;
 	}
 	return 0;
 }
@@ -96,5 +119,5 @@ void ClientSocket::disconnect(){
 }
 
 std::string ClientSocket::getCurrentMessage() const{
-	return receive;
+	return std::string(recv_str);
 }

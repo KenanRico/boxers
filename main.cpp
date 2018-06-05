@@ -34,9 +34,9 @@ void disconnectFromServer();
 
 int main(){
 	try{
-		connectToServer();
 		initSDL();
 		initGame();
+		connectToServer();
 		gameLoop();
 		destroyGame();
 		destroySDL();
@@ -85,11 +85,11 @@ void initGame(){
 	float x =0.0f;
 	float y =0.0f;
 	promptPlayerInfo(&name, &x, &y);
-	GameComponents::init(window, renderer, client_socket, name, x, y);
+	GameComponents::init(window, renderer, &client_socket, name, x, y);
 }
 
 void promptPlayerInfo(std::string* name, float* x, float* y){
-	std::cout<<"What yo box name is?\n";
+	std::cout<<"What yo name is?\n";
 	std::cin>>*name;
 	std::cout<<"Where dat box be at? (specify x&y coords in range of 0.0~1.0)\n";
 	std::cin>>*x>>*y;

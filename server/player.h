@@ -1,3 +1,4 @@
+#include <string>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <pthread.h>
@@ -11,7 +12,7 @@ class Player{
 	private:
 		//player state, updated on each message received from player client
 		struct PlayerInfo{
-			int ID;
+			std::string name;
 			float x;
 			float y;
 		} player;
@@ -27,10 +28,11 @@ class Player{
 			pthread_t ID;
 			pthread_attr_t attrib;
 			bool started;
-		} thread;
+		} write_thread, read_thread;
+		std::string const * overall_game_state;
 
 	public:
-		Player(int, int);
+		Player(int, std::string, std::string*);
 		~Player();
 	private:
 		Player() = delete;
@@ -43,7 +45,8 @@ class Player{
 
 
 	friend class PlayerManager;
-	friend void* communicationHandler(void* arg);
+	friend void* writeRoutine(void* arg);
+	friend void* readRoutine(void* arg);
 };
 
 #endif

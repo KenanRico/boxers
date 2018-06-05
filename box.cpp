@@ -9,7 +9,7 @@
 
 
 
-Box::Box(std::string n, float _x, float _y, SDL_Renderer* r): name(n), x(_x), y(_y), texture(nullptr){
+Box::Box(std::string _n, float _x, float _y, SDL_Renderer* r): name(_n), x(_x), y(_y), texture(nullptr){
 	//create texture
 	SDL_Surface* surface = IMG_Load("assets/ninja.png");
 	if(surface==nullptr){
@@ -58,6 +58,14 @@ void Box::setX(float new_x){
 void Box::setY(float new_y){
 	y = new_y;
 	dest.y = GameAttr::physicalY(y);
+}
+
+float Box::getX() const{
+	return x;
+}
+
+float Box::getY() const{
+	return y;
 }
 
 std::string Box::getName() const{

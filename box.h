@@ -30,6 +30,8 @@ class Box{
 		void moveY(float);
 		void setX(float);
 		void setY(float);
+		float getX() const;
+		float getY() const;
 		std::string getName() const;
 		
 		void render(SDL_Renderer*);

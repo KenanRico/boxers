@@ -14,41 +14,48 @@ SDL_Window* GameComponents::window = nullptr;
 SDL_Renderer* GameComponents::renderer = nullptr;
 Box* GameComponents::box = nullptr;
 std::map<std::string, Box*> GameComponents::other_boxes;
-ClientSocket const * GameComponents::socket = nullptr;
+ClientSocket const * const * GameComponents::socket = nullptr;
 
 
-void GameComponents::init(SDL_Window* w, SDL_Renderer* r, ClientSocket* s, std::string n, float x, float y){
+void GameComponents::init(SDL_Window* w, SDL_Renderer* r, ClientSocket** s, std::string n, float x, float y){
 	window = w;
 	renderer = r;
-	socket = (ClientSocket const *)s;
+	socket = (ClientSocket const * const *)s;
 	box = new Box(n, x, y, renderer);
 }
 
 void GameComponents::update(){
 
+	//reset update state
+	updated = false;
+
 	//update local player
 	if(EventHandler::keyPressed(EventHandler::W)){
-		box->moveY(-0.01f);
+		box->moveY(-0.001f);
+		updated = true;
 	}else;
 	if(EventHandler::keyPressed(EventHandler::A)){
-		box->moveX(-0.01f);
+		box->moveX(-0.001f);
+		updated = true;
 	}else;
 	if(EventHandler::keyPressed(EventHandler::S)){
-		box->moveY(0.01f);
+		box->moveY(0.001f);
+		updated = true;
 	}else;
 	if(EventHandler::keyPressed(EventHandler::D)){
-		box->moveX(0.01f);
+		box->moveX(0.001f);
+		updated = true;
 	}else;
 
 	//update other players
-	std::stringstream new_msg_ss(socket->getCurrentMessage());
+	std::stringstream new_msg_ss((*socket)->getCurrentMessage());
 	std::string b("");
 	while(new_msg_ss>>b){
 		//b should be in the format of "playername:x,y", transform it into "playername x y"
 		replace(b.begin(), b.end(), ':', ' ');
 		replace(b.begin(), b.end(), ',', ' ');
 		//parse b into 3 parts
-		std::string name("");
+		std::string name = 0;
 		float x = 0.0f;
 		float y = 0.0f;
 		std::stringstream(b)>>name>>x>>y;
@@ -62,7 +69,6 @@ void GameComponents::update(){
 			other_boxes.insert(std::make_pair(name, new Box(name, x, y, renderer)));
 		}
 	}
-
 }
 
 void GameComponents::render(){
@@ -79,4 +85,12 @@ void GameComponents::destroy(){
 	for(std::map<std::string, Box*>::iterator i=other_boxes.begin(); i!=other_boxes.end(); ++i){
 		delete i->second;
 	}
+}
+
+bool GameComponents::isUpdated(){
+	return updated;
+}
+
+Box const * GameComponents::getMyBox(){
+	return box;
 }

@@ -24,10 +24,10 @@ void EventHandler::update(){
 	mouse_click[RIGHT] = false;
 
 	//reset keyboard
-	keyboard.pressed[W] = false;
-	keyboard.pressed[A] = false;
-	keyboard.pressed[S] = false;
-	keyboard.pressed[D] = false;
+	//keyboard.pressed[W] = false;
+	//keyboard.pressed[A] = false;
+	//keyboard.pressed[S] = false;
+	//keyboard.pressed[D] = false;
 
 	
 	if(SDL_PollEvent(&event)){

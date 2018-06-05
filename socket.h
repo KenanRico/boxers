@@ -7,6 +7,8 @@
 //get access to winsock lib functions
 #pragma comment(lib, "ws2_32.lib")
 
+#define RECVBUFLEN 512
+
 
 #ifndef CLIENT_SOCKET_H
 #define CLIENT_SOCKET_H
@@ -30,10 +32,9 @@ class ClientSocket{
 			bool started;
 		} thread_info;
 		//game related
-		bool local_updated;
-		std::string send;
+		std::string send_str; //config string and send as c string
 		bool server_updated;
-		std::string receive;
+		char recv_str[RECVBUFLEN]; //
 
 	public:
 		ClientSocket(const char*, int);
