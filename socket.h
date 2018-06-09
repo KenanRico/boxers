@@ -26,7 +26,8 @@ class ClientSocket{
 		SOCKET connection;
 		//thread
 		struct ThreadInfo{
-			DWORD ID;
+			DWORD rID;
+			DWORD wID;
 			HANDLE rthread;
 			HANDLE wthread;
 			bool started;
@@ -34,7 +35,8 @@ class ClientSocket{
 		//game related
 		std::string send_str; //config string and send as c string
 		bool server_updated;
-		char recv_str[RECVBUFLEN]; //
+		//char recv_str[RECVBUFLEN];
+		std::string recv_str;
 
 	public:
 		ClientSocket(const char*, int);

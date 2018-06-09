@@ -5,6 +5,7 @@
 
 #include <WinSock2.h>
 #include <iostream>
+#include <string>
 #include <cstring>
 #include <sstream>
 
@@ -60,6 +61,7 @@ void ClientSocket::connectToServer(){
 	if(connect(connection, (SOCKADDR*)&address, sizeof(address))>=0){
 		connected = true;
 		std::string name = GameComponents::getMyBox()->getName();
+		std::cout<<"box name: "<<name<<"\n";
 		send(connection, name.c_str(), name.size(), 0);
 		std::cout<<"Connect successful!\n";
 	}else{
@@ -78,8 +80,8 @@ DWORD WINAPI writeLoop(LPVOID);
 
 void ClientSocket::runMsgHandlingThread(){
 	thread_info.started = true;
-	thread_info.rthread = CreateThread(nullptr, 0, readLoop, (LPVOID)this, 0, &thread_info.ID);
-	thread_info.wthread = CreateThread(nullptr, 0, writeLoop, (LPVOID)this, 0, &thread_info.ID);
+	thread_info.rthread = CreateThread(nullptr, 0, readLoop, (LPVOID)this, 0, &thread_info.rID);
+	thread_info.wthread = CreateThread(nullptr, 0, writeLoop, (LPVOID)this, 0, &thread_info.wID);
 }
 
 DWORD WINAPI readLoop(LPVOID arg){
@@ -88,8 +90,12 @@ DWORD WINAPI readLoop(LPVOID arg){
 		//mutex(receive).lock
 		//recv(SOCKET, char[], int, 0);
 		//mutex(receive).release
-		memset(socket->recv_str, 0, sizeof(socket->recv_str));
-		recv(socket->connection, socket->recv_str, sizeof(socket->recv_str), 0);
+		char recv_arr[512];
+		//memset(socket->recv_str, 0, sizeof(socket->recv_str));
+		//recv(socket->connection, socket->recv_str, sizeof(socket->recv_str), 0);
+		memset(recv_arr, 0, sizeof(recv_arr));
+		recv(socket->connection, recv_arr, sizeof(recv_arr), 0);
+		socket->recv_str = std::string(recv_arr);
 	}
 	return 0;
 }
@@ -119,5 +125,7 @@ void ClientSocket::disconnect(){
 }
 
 std::string ClientSocket::getCurrentMessage() const{
-	return std::string(recv_str);
+	std::cout<<recv_str<<" ";
+	return recv_str;
+	//return "";
 }

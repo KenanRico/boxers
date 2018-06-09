@@ -25,6 +25,15 @@ Player::Player(int server_socket, std::string player_name, std::string* ogs): pl
 	if((socket.sock = accept(server_socket, (struct sockaddr*)&(socket.addr), &socket.length)) >= 0){
 		std::cout<<"Player connection established\n";
 		socket.connected = true;
+		//get player ID
+		char msgarr[256];
+		memset(msgarr, 0, sizeof(msgarr));
+		ssize_t N = read(socket.sock, msgarr, 255);
+		if(N>=0){
+			std::string msg(msgarr);
+			std::stringstream(msg)>>player.name;
+			std::cout<<"name: "<<msg<<"\n";
+		}else;
 	}else{
 		std::cerr<<"errno:"<<errno<<"\n";
 		socket.connected = false;
@@ -69,8 +78,8 @@ void* writeRoutine(void* arg){
 	while(p->socket.connected){
 		//configure overall_game_state
 		//write overall_game_state through socket
+		std::cout<<*(p->overall_game_state)<<"\n";
 		write(p->socket.sock, p->overall_game_state->c_str(), p->overall_game_state->size());
-
 	}
 }
 
@@ -78,12 +87,13 @@ void* readRoutine(void* arg){
 	Player* p = (Player*)arg;
 	while(p->socket.connected){
 		char msgarr[256];
+		memset(msgarr, 0, sizeof(msgarr));
 		ssize_t N = read(p->socket.sock, msgarr, 255);
 		if(N>=0){
 			//parse message for new x and y, and update player x and y
 			std::string msg(msgarr);
 			std::stringstream(msg)>>p->player.x>>p->player.y;
-			std::cout<<msg<<"\n";
+			//std::cout<<msg<<"\n";
 		}else;
 	}
 	pthread_exit(nullptr);

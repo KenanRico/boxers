@@ -11,7 +11,6 @@
 #include <vector>
 #include <string>
 
-#define MAX_WAITING_CLIENT 20
 
 
 
@@ -21,7 +20,8 @@ PlayerManager players;
 
 void createServerSocket();
 void bindServerSocket();
-void acceptPlayerConnections();
+void startWaiting();
+void gameLoop();
 void closeServerSocket();
 
 
@@ -30,7 +30,8 @@ int main(){
 	try{
 		createServerSocket();
 		bindServerSocket();
-		acceptPlayerConnections();
+		startWaiting();
+		gameLoop();
 		closeServerSocket();
 	}catch(const std::exception& e){
 		std::cout<<e.what()<<"\n";
@@ -59,13 +60,14 @@ void bindServerSocket(){
 	}
 }
 
-void acceptPlayerConnections(){
-	//main loop
+void startWaiting(){
+	players.startServerSocketThread();
+}
+
+void gameLoop(){
 	while(true){
-		listen(server_socket, MAX_WAITING_CLIENT);
-		players.addPlayer();
+		players.update();
 	}
-	std::cout<<"No longer waiting for clients!\n";
 }
 
 void closeServerSocket(){

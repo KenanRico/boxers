@@ -55,7 +55,7 @@ void GameComponents::update(){
 		replace(b.begin(), b.end(), ':', ' ');
 		replace(b.begin(), b.end(), ',', ' ');
 		//parse b into 3 parts
-		std::string name = 0;
+		std::string name("");
 		float x = 0.0f;
 		float y = 0.0f;
 		std::stringstream(b)>>name>>x>>y;
